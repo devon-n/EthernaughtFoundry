@@ -6,6 +6,7 @@ libs = ["lib"]
 remappings = [
     "@openzeppelin/=lib/openzeppelin-contracts/",
     "@openzeppelin-06/=lib/openzeppelin-contracts-06/",
+    "@openzeppelin-08/=lib/openzeppelin-contracts-08/",
 ]
 
 eth_rpc_url = 'wss://ethereum-sepolia-rpc.publicnode.com'
