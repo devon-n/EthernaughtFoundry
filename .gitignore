@@ -4,5 +4,4 @@ bloat*
 .github/
 broadcast/
 cache/
-lib/
 .env
