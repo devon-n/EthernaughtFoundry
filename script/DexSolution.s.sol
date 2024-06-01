@@ -4,6 +4,9 @@ pragma solidity ^0.8.0;
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
 
+import "openzeppelin-contracts-06/contracts/token/ERC20/IERC20.sol";
+import "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+
 interface IDex {
     function token1() external view returns (address);
     function token2() external view returns (address);
@@ -36,11 +39,11 @@ interface IDex {
 
 
 contract DexAttack {
-    Dex private immutable dex;
+    IDex private immutable dex;
     IERC20 private immutable token1;
     IERC20 private immutable token2;
 
-    constructor(Dex _dex) {
+    constructor(IDex _dex) {
         dex = _dex;
         token1 = IERC20(dex.token1());
         token2 = IERC20(dex.token2());
@@ -71,7 +74,7 @@ contract DexAttack {
 
 contract DexSolution is Script {
 
-    Dex dex = Dex(0x04D1DA1a890ba4B44DE682597Ceb96f43e45D153);
+    IDex dex = IDex(0x04D1DA1a890ba4B44DE682597Ceb96f43e45D153);
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
