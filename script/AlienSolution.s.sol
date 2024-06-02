@@ -3,8 +3,8 @@
 pragma solidity 0.8.0;
 
 import "forge-std/Script.sol";
+import "forge-std/console.sol";
 
-// import "forge-std/console.sol";
 
 /*
     TL;DR: We are going to overwrite the owner variable of the inherited contract using underflow
