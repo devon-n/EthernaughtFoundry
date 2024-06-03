@@ -25,7 +25,7 @@ contract GoodSamaritanAttack {
 }
 contract GoodSamaritanSolution is Script {
 
-    GoodSamaritan goodSamaritan = GoodSamaritan(0x7d983A1Fc19C9639b87C4021Cf470B8C38f8250F);
+    GoodSamaritan goodSamaritan = GoodSamaritan(0x466Ba35B0ee8a31c54fAEEbFCAE8F9BdC852FCEa);
     function run() public {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
         new GoodSamaritanAttack(goodSamaritan, goodSamaritan.coin());
