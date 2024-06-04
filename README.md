@@ -1,3 +1,3 @@
-# Ethernaught Challenges in Foundry
+# Ethernaut Challenges in Foundry
 
-A foundry repo solving the ethernaught challenges
+A foundry repo solving the ethernaut challenges
