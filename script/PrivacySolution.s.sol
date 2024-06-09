@@ -5,6 +5,17 @@ import "../src/Privacy.sol";
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
 
+
+
+/*
+    The creator of this contract was careful enough to protect the sensitive areas of its storage.
+
+    Unlock this contract to beat the level.
+
+    Solution 1: Read the deployment transaction from the block explorer for constructor value
+    Solution 2: Use cast <address> 5 to read the fifth storage slot
+    Pass that value into unlock casting it into bytes16
+ */
 contract PrivacySolution is Script {
 
     Privacy public privacyInstance = Privacy(0x297baf5619c7c0c469FAd1b1485FfEd76fdD7595);

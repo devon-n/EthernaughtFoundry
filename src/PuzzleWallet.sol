@@ -19,6 +19,7 @@ contract PuzzleProxy is UpgradeableProxy {
         _;
     }
 
+    // @audit-issue anyone can propose a new admin
     function proposeNewAdmin(address _newAdmin) external {
         pendingAdmin = _newAdmin;
     }
@@ -39,6 +40,7 @@ contract PuzzleWallet {
     mapping(address => bool) public whitelisted;
     mapping(address => uint256) public balances;
 
+    // @audit-issue sets the same storage slot as admin in PuzzleProxy
     function init(uint256 _maxBalance) public {
         require(maxBalance == 0, "Already initialized");
         maxBalance = _maxBalance;

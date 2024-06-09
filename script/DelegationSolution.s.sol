@@ -5,6 +5,15 @@ import "../src/Delegation.sol";
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
 
+
+/*
+    The goal of this level is for you to claim ownership of the instance you are given.
+
+    Encode the pwn() function
+    Use fallback() in Delegation to call pwn()
+    Stores msg.sender in the storage of Delegation
+    This is because Delegate and Delegation share the same storage slot 0 for owner
+ */
 contract DelegationSolution is Script {
 
     Delegation public delegationInstance = Delegation(0x3c63AbF6131E66Bfca45d936a8f9635E8d3B5431);

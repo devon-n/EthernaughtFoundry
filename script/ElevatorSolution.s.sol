@@ -5,7 +5,14 @@ import "../src/Elevator.sol";
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
 
+/*
+    This elevator won't let you reach the top of your building. Right?
 
+    Solution:
+    Create a contract that changes what isLastFloor returns based on how many times it has been called
+    1st call return false
+    2nd call return true
+ */
 contract Building2 {
 
     Elevator elevator = Elevator(0xB2D023AbDD8551cfe3D147e3Dc1532Ab9841D895);
@@ -14,9 +21,8 @@ contract Building2 {
         called += 1;
         if (called == 1) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     function goTo() external {

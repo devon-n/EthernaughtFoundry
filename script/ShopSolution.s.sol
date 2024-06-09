@@ -11,6 +11,12 @@ import "forge-std/console.sol";
     Things that might help:
     Shop expects to be used from a Buyer
     Understanding restrictions of view functions
+
+    Solution:
+    The Shop contract calls price() twice
+    Once in the if statement to make sure price >= 100
+    Then again to set the Shop price
+    So we change the price after the if statement is passed
  */
 
 contract ShopBuyer {
@@ -20,12 +26,7 @@ contract ShopBuyer {
         shop = _shop;
     }
 
-    /*
-        The Shop contract calls price() twice
-        Once in the if statement to make sure price >= 100
-        Then again to set the Shop price
-        So we change the price after the if statement is passed
-     */
+    // If price has been called drop price to 0
     function price() external view returns(uint256) {
         if (!shop.isSold()) {
             return 100;

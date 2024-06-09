@@ -6,6 +6,25 @@ import "forge-std/Script.sol";
 import "forge-std/console.sol";
 import "../src/GateKeeperThree.sol";
 
+/*
+    Cope with gates and become an entrant.
+    Things that might help:
+
+        Recall return values of low-level functions.
+        Be attentive with semantic.
+        Refresh how storage works in Ethereum.
+
+    Solution:
+    1. Create contract that we will attack from (gate 1)
+    2. Call construct0r to become owner (gate 1)
+    3. Call createTrick() (gate 2)
+    4. Call getAllowance(block.timestamp) (gate 2)
+    5. Send gate keeper > 0.001 ether
+    6. Do not have a receive function / have a receive function that returns false
+    7. Call enter
+
+*/
+
 contract GatekeeperThreeAttack {
     function solve(GatekeeperThree _gk3) external payable {
         // 1. Gate 1: send through contract

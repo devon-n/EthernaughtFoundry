@@ -6,6 +6,18 @@ import "forge-std/Script.sol";
 import "forge-std/console.sol";
 import "../src/GoodSamaritan.sol";
 
+/*
+    This instance represents a Good Samaritan that is wealthy and ready to donate some coins to anyone requesting it.
+    Would you be able to drain all the balance from his Wallet?
+
+    Things that might help:
+        Solidity Custom Errors
+
+    Solution:
+    1. Create a contract that calls requestDonation() on the Good Samaritan contract
+    2. This contract throws a custom revert inside notify()
+    3. The custom revert triggers the Good Samaritan contract to send the remaining balance
+ */
 contract GoodSamaritanAttack {
     // Throw custom error NotEnoughBalance() so that the GoodSamaritan contract sends its remaining balance
 
