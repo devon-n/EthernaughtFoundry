@@ -89,7 +89,6 @@ contract SwitchAttack {
 contract SwitchSolution is Script {
 
     Switch switchContract = Switch(0x90f1856277420fdF9bF5475A39A24a158007ca2f);
-    // Switch switchContract = Switch(0x62800b2f265023743ab1e9A48549d096c4deEE4b);
 
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
